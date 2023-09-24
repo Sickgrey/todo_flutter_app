@@ -7,6 +7,9 @@ abstract class ITodoRepository {
   /// Returns todos data.
   Future<List<TodoItem>> fetchTodos();
 
-  /// Add data.
+  /// Create data.
   Future<void> createTodo({required String title});
+
+  /// Delete todo.
+  Future<void> deleteTodo({required String todoUrl});
 }

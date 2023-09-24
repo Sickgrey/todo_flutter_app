@@ -65,7 +65,20 @@ class TodoCubit extends Cubit<TodoState> {
   }
 
   Future<void> createTodo({required String title}) async {
-    await todoRepository.createTodo(title: title);
+    try {
+      await todoRepository.createTodo(title: title);
+    } catch (e) {
+      emit(TodoLoadFailed(error: e));
+    }
+  }
+
+  Future<void> deleteTodo({required String todoUrl}) async {
+    try {
+      await todoRepository.deleteTodo(todoUrl: todoUrl);
+      await fetchTodos();
+    } catch (e) {
+      emit(TodoLoadFailed(error: e));
+    }
   }
 }
 

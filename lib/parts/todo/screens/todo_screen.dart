@@ -1,8 +1,13 @@
 part of todo_part;
 
+/// {@template todoScreen}
+/// Screen with list of todo items.
+/// {@endtemplate}
 class TodoScreen extends StatelessWidget {
+  /// List of todo items.
   final List<TodoItem> todoList;
 
+  /// {@macro todoScreen}
   const TodoScreen({super.key, required this.todoList});
 
   @override
@@ -34,7 +39,8 @@ class TodoScreen extends StatelessWidget {
                         icon: Icons.delete,
                         label: 'Delete',
                         backgroundColor: Colors.red,
-                        onPressed: (context) {},
+                        onPressed: (context) => context.readTodoCubit
+                            .deleteTodo(todoUrl: todoItem.url),
                       ),
                     ],
                   ),

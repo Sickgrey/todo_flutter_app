@@ -9,4 +9,7 @@ abstract class ITodoDataProvider {
 
   /// Create todo.
   Future<void> createTodo({required String title});
+
+  /// Delete todo.
+  Future<void> deleteTodo({required String todoUrl});
 }

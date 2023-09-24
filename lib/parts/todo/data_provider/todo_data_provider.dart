@@ -26,4 +26,8 @@ class TodoDataProvider implements ITodoDataProvider {
       data: data,
     );
   }
+
+  @override
+  Future<void> deleteTodo({required String todoUrl}) async =>
+      await _dio.delete(todoUrl);
 }
