@@ -23,24 +23,34 @@ class TodoCubit extends Cubit<TodoState> {
     }
   }
 
+  Future<void> createTodo({required String title}) async {
+    try {
+      await todoRepository.createTodo(title: title);
+      await _updateList();
+    } catch (e) {
+      emit(TodoLoadFailed(error: e));
+    }
+  }
+
+  Future<void> deleteTodo({required String todoUrl}) async {
+    try {
+      await todoRepository.deleteTodo(todoUrl: todoUrl);
+      await _updateList();
+    } catch (e) {
+      emit(TodoLoadFailed(error: e));
+    }
+  }
+
   Future<void> updateCompleteStatus({
     required String todoUrl,
     required bool isCompleted,
   }) async {
     try {
-      if (state is TodoLoadSuccess) {
-        final currentState = state as TodoLoadSuccess;
-        await todoRepository.updateTodo(
-            todoUrl: todoUrl, isCompleted: isCompleted);
-        final data = await todoRepository.fetchTodos();
-        emit(currentState.copyWith(
-          todoList: data,
-          filteredTodoList: _filterItems(
-            items: data,
-            filterType: currentState.currentFilter,
-          ),
-        ));
-      }
+      await todoRepository.updateTodo(
+        todoUrl: todoUrl,
+        isCompleted: isCompleted,
+      );
+      await _updateList();
     } catch (e) {
       emit(TodoLoadFailed(error: e));
     }
@@ -64,60 +74,28 @@ class TodoCubit extends Cubit<TodoState> {
     required List<TodoItem> items,
     required TodoFilterType filterType,
   }) {
-    List<TodoItem> todoList = List<TodoItem>.from(items);
-
     switch (filterType) {
       case TodoFilterType.all:
-        break;
+        return items;
       case TodoFilterType.completed:
-        todoList =
-            todoList.where((element) => element.completed == true).toList();
-        break;
+        return items.where((element) => element.completed == true).toList();
       case TodoFilterType.uncompleted:
-        todoList =
-            todoList.where((element) => element.completed == false).toList();
-        break;
-    }
-    return todoList;
-  }
-
-  Future<void> createTodo({required String title}) async {
-    try {
-      if (state is TodoLoadSuccess) {
-        final currentState = state as TodoLoadSuccess;
-        await todoRepository.createTodo(title: title);
-        final data = await todoRepository.fetchTodos();
-        emit(currentState.copyWith(
-          todoList: data,
-          filteredTodoList: _filterItems(
-            items: data,
-            filterType: currentState.currentFilter,
-          ),
-        ));
-      }
-    } catch (e) {
-      emit(TodoLoadFailed(error: e));
+        return items.where((element) => element.completed == false).toList();
     }
   }
 
-  Future<void> deleteTodo({required String todoUrl}) async {
-    try {
-      if (state is TodoLoadSuccess) {
-        final currentState = state as TodoLoadSuccess;
-        await todoRepository.deleteTodo(todoUrl: todoUrl);
+  Future<void> _updateList() async {
+    if (state is TodoLoadSuccess) {
+      final currentState = state as TodoLoadSuccess;
 
-        final data = await todoRepository.fetchTodos();
-
-        emit(currentState.copyWith(
-          todoList: data,
-          filteredTodoList: _filterItems(
-            items: data,
-            filterType: currentState.currentFilter,
-          ),
-        ));
-      }
-    } catch (e) {
-      emit(TodoLoadFailed(error: e));
+      final data = await todoRepository.fetchTodos();
+      emit(currentState.copyWith(
+        todoList: data,
+        filteredTodoList: _filterItems(
+          items: data,
+          filterType: currentState.currentFilter,
+        ),
+      ));
     }
   }
 }
