@@ -6,10 +6,11 @@ part of '../todo_part.dart';
 class TodoDataProvider implements ITodoDataProvider {
   final _dio = Dio();
 
+  final _url = 'https://csharp-todo-backend.azurewebsites.net/api/v1/todo';
+
   @override
   Future<List<DtoTodoItem>> fetchTodos() async {
-    final response = await _dio
-        .get('https://csharp-todo-backend.azurewebsites.net/api/v1/todo');
+    final response = await _dio.get(_url);
     final data = response.data as List;
     return data
         .map((e) => DtoTodoItem.fromJson(e as Map<String, dynamic>))
@@ -21,10 +22,7 @@ class TodoDataProvider implements ITodoDataProvider {
     final data = <String, dynamic>{
       "title": title,
     };
-    await _dio.post(
-      'https://csharp-todo-backend.azurewebsites.net/api/v1/todo',
-      data: data,
-    );
+    await _dio.post(_url, data: data);
   }
 
   @override
