@@ -3,7 +3,7 @@ part of '../password_part.dart';
 /// {@template todoRepository}
 /// Implementation of [PasswordRepository] with production functionality.
 /// {@endtemplate}
-class PasswordRepository extends IPasswordRepository {
+class PasswordRepository implements IPasswordRepository {
   final _passwordKey = 'passwordKey';
 
   @override

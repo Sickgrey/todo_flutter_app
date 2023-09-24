@@ -1,5 +1,8 @@
 part of '../todo_part.dart';
 
+/// {@template dtoTodoItem}
+/// Dto model of todo item.
+/// {@endtemplate}
 @JsonSerializable()
 class DtoTodoItem {
   final String id;
@@ -8,6 +11,7 @@ class DtoTodoItem {
   final String title;
   final String url;
 
+  /// {@macro dtoTodoItem}
   const DtoTodoItem({
     required this.id,
     required this.completed,
@@ -16,10 +20,10 @@ class DtoTodoItem {
     required this.url,
   });
 
-  /// [DtoTodoItem.fromJson].
+  /// Convert to [DtoTodoItem] from json.
   factory DtoTodoItem.fromJson(Map<String, dynamic> json) =>
       _$DtoTodoItemFromJson(json);
 
-  /// [DtoTodoItem] to json.
+  /// Convert to json from [DtoTodoItem].
   Map<String, dynamic> toJson() => _$DtoTodoItemToJson(this);
 }

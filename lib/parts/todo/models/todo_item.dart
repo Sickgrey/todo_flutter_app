@@ -1,5 +1,8 @@
 part of '../todo_part.dart';
 
+/// {@template todoItem}
+/// Model of todo item.
+/// {@endtemplate}
 class TodoItem extends Equatable {
   final String id;
   final bool completed;
@@ -7,6 +10,7 @@ class TodoItem extends Equatable {
   final String title;
   final String url;
 
+  /// {@macro todoItem}
   const TodoItem({
     required this.id,
     required this.completed,
@@ -15,6 +19,7 @@ class TodoItem extends Equatable {
     required this.url,
   });
 
+  /// Convert to [TodoItem] from [DtoTodoItem].
   factory TodoItem.fromDto(DtoTodoItem dto) => TodoItem(
         id: dto.id,
         completed: dto.completed,
@@ -23,6 +28,7 @@ class TodoItem extends Equatable {
         url: dto.url,
       );
 
+  /// Convert to [DtoTodoItem] from [TodoItem].
   DtoTodoItem toDto() => DtoTodoItem(
         id: id,
         completed: completed,
@@ -31,6 +37,7 @@ class TodoItem extends Equatable {
         url: url,
       );
 
+  /// [TodoItem] update function.
   TodoItem copyWith({
     String? id,
     bool? completed,

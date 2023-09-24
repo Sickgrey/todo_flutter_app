@@ -3,7 +3,7 @@ part of '../todo_part.dart';
 /// {@template todoRepository}
 /// Implementation of [TodoRepository] with production functionality.
 /// {@endtemplate}
-class TodoRepository extends ITodoRepository {
+class TodoRepository implements ITodoRepository {
   /// Instance of [ITodoDataProvider].
   final ITodoDataProvider todoDataProvider;
 
