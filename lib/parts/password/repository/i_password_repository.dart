@@ -1,4 +1,4 @@
-part of password_part;
+part of '../password_part.dart';
 
 /// {@template iPasswordRepository}
 /// Password repository interface.

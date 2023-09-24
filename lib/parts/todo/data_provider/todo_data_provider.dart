@@ -1,4 +1,4 @@
-part of todo_part;
+part of '../todo_part.dart';
 
 /// {@template todoDataProvider}
 /// Implementation of [ITodoDataProvider] with production functionality.

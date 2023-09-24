@@ -1,4 +1,4 @@
-part of todo_part;
+part of '../todo_part.dart';
 
 /// {@tempalte createTodoScreen}
 /// Create todo screen.
@@ -19,9 +19,11 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Todo'),
+        title: Text(locale.createTodo),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
@@ -38,7 +40,7 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                   widget.onCreate(controller.text);
                   Navigator.of(context).pop();
                 },
-                child: const Text('Create'),
+                child: Text(locale.create),
               ),
             ),
           ],

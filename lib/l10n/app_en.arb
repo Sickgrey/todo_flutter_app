@@ -1,0 +1,12 @@
+{
+    "enterPassword": "Enter password",
+    "createPassword": "Create a password",
+    "passwordLengthError": "Minimum password length 4 digits",
+    "wrongPassword": "Wrong password",
+    "confirm": "Confirm",
+    "createTodo": "Create Todo",
+    "create": "Create",
+    "todoList": "Todo list",
+    "emptyData": "Empty data",
+    "delete": "Delete"
+}

@@ -1,4 +1,4 @@
-part of todo_part;
+part of '../todo_part.dart';
 
 /// {@tempalte todoFilter}
 /// Button with popup menu for filter.
@@ -12,32 +12,26 @@ class TodoFilter extends StatelessWidget {
     return BlocBuilder<TodoCubit, TodoState>(
       builder: (context, state) => PopupMenuButton<TodoFilterType>(
         initialValue: state is TodoLoadSuccess ? state.currentFilter : null,
-        itemBuilder: (context) => const [
+        itemBuilder: (context) => [
           PopupMenuItem(
             value: TodoFilterType.all,
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             height: 32,
-            child: Text(
-              'All',
-            ),
+            child: Text(capitalize(TodoFilterType.all.name)),
           ),
-          PopupMenuDivider(height: 1),
+          const PopupMenuDivider(height: 1),
           PopupMenuItem(
             value: TodoFilterType.completed,
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             height: 32,
-            child: Text(
-              'Completed',
-            ),
+            child: Text(capitalize(TodoFilterType.completed.name)),
           ),
-          PopupMenuDivider(height: 1),
+          const PopupMenuDivider(height: 1),
           PopupMenuItem(
             value: TodoFilterType.uncompleted,
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             height: 32,
-            child: Text(
-              'Uncompleted',
-            ),
+            child: Text(capitalize(TodoFilterType.uncompleted.name)),
           ),
         ],
         onSelected: (value) {
@@ -51,4 +45,7 @@ class TodoFilter extends StatelessWidget {
       ),
     );
   }
+
+  String capitalize(String text) =>
+      text.isEmpty ? text : '${text[0].toUpperCase()}${text.substring(1)}';
 }

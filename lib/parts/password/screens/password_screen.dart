@@ -1,8 +1,13 @@
-part of password_part;
+part of '../password_part.dart';
 
+/// {@template passwordScreen}
+/// Screen with password input field.
+/// {@endtemplate}
 class PasswordScreen extends StatefulWidget {
+  /// Saved password.
   final String? password;
 
+  /// {@macro passwordScreen}
   const PasswordScreen({super.key, required this.password});
 
   @override
@@ -15,6 +20,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.l10n;
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -26,18 +33,18 @@ class _PasswordScreenState extends State<PasswordScreen> {
               children: [
                 Text(
                   widget.password != null
-                      ? 'Enter password'
-                      : 'Create a password',
+                      ? locale.enterPassword
+                      : locale.createPassword,
                 ),
                 TextFormField(
                   autofocus: true,
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if ((value?.length ?? 0) < 4) {
-                      return 'Minimum password length 4 digits';
+                      return locale.passwordLengthError;
                     } else if (widget.password != null &&
                         widget.password != value) {
-                      return 'Wrong password';
+                      return locale.wrongPassword;
                     } else {
                       return null;
                     }
@@ -52,7 +59,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   padding: const EdgeInsets.only(top: 24),
                   child: ElevatedButton(
                     onPressed: _onConfirm,
-                    child: const Text('Confirm'),
+                    child: Text(locale.confirm),
                   ),
                 ),
               ],

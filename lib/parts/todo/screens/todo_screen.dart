@@ -1,4 +1,4 @@
-part of todo_part;
+part of '../todo_part.dart';
 
 /// {@template todoScreen}
 /// Screen with list of todo items.
@@ -12,9 +12,11 @@ class TodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo list'),
+        title: Text(locale.todoList),
         actions: [
           IconButton(
             onPressed: () {},
@@ -23,8 +25,8 @@ class TodoScreen extends StatelessWidget {
         ],
       ),
       body: todoList.isEmpty
-          ? const Center(
-              child: Text('Empty data'),
+          ? Center(
+              child: Text(locale.emptyData),
             )
           : ListView.separated(
               itemBuilder: (context, index) {
@@ -37,7 +39,7 @@ class TodoScreen extends StatelessWidget {
                     children: [
                       SlidableAction(
                         icon: Icons.delete,
-                        label: 'Delete',
+                        label: locale.delete,
                         backgroundColor: Colors.red,
                         onPressed: (context) => context.readTodoCubit
                             .deleteTodo(todoUrl: todoItem.url),

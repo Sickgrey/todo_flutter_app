@@ -1,4 +1,4 @@
-part of ui_kit;
+part of '../ui_kit.dart';
 
 /// {@template appErrorScreen}
 /// App error screen.

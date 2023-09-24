@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:todo_flutter_app/l10n/l10n.dart';
 import 'package:todo_flutter_app/ui_kit/ui_kit.dart';
 
 part 'todo_part.g.dart';

@@ -1,4 +1,4 @@
-part of todo_part;
+part of '../todo_part.dart';
 
 /// {@template todoState}
 /// Abstract state class for [TodoCubit].

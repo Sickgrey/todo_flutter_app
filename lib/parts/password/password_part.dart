@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_flutter_app/l10n/l10n.dart';
 import 'package:todo_flutter_app/parts/todo/todo_part.dart';
 import 'package:todo_flutter_app/ui_kit/ui_kit.dart';
 
@@ -13,8 +14,12 @@ part 'repository/i_password_repository.dart';
 part 'repository/password_repository.dart';
 part 'screens/password_screen.dart';
 
+/// {@template passwordPart}
+/// Password part widget.
+/// {@endtemplate}
 class PasswordPart extends StatelessWidget {
-  const PasswordPart({Key? key}) : super(key: key);
+  /// {@macro passwordPart}
+  const PasswordPart({super.key});
 
   @override
   Widget build(BuildContext context) {
