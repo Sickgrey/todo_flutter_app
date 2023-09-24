@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:todo_flutter_app/ui_kit/ui_kit.dart';
 
 part 'todo_part.g.dart';
 
@@ -27,24 +28,23 @@ class TodoPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoCubit, TodoState>(
-      builder: (context, state) {
-        if (state is TodoLoadSuccess) {
-          return TodoScreen(todoList: state.filteredTodoList);
-        } else if (state is TodoLoadFailed) {
-          return Scaffold(
-            body: Center(
-              child: Text(state.error.toString()),
-            ),
-          );
-        } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
+    return BlocProvider<TodoCubit>(
+      create: (_) => TodoCubit(
+        todoRepository: TodoRepository(
+          todoDataProvider: TodoDataProvider(),
+        ),
+      )..fetchTodos(),
+      child: BlocBuilder<TodoCubit, TodoState>(
+        builder: (context, state) {
+          if (state is TodoLoadSuccess) {
+            return TodoScreen(todoList: state.filteredTodoList);
+          } else if (state is TodoLoadFailed) {
+            return AppErrorScreen(error: state.error);
+          } else {
+            return const AppLoadingScreen();
+          }
+        },
+      ),
     );
   }
 }
