@@ -34,4 +34,7 @@ class TodoRepository implements ITodoRepository {
         todoUrl: todoUrl,
         isCompleted: isCompleted,
       );
+
+  @override
+  void dispose() => todoDataProvider.dispose();
 }

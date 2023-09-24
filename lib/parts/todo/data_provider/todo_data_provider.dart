@@ -39,4 +39,7 @@ class TodoDataProvider implements ITodoDataProvider {
     };
     await _dio.patch(todoUrl, data: data);
   }
+
+  @override
+  void dispose() => _dio.close();
 }

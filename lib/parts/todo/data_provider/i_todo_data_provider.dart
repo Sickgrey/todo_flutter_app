@@ -15,4 +15,7 @@ abstract class ITodoDataProvider {
 
   /// Update todo completion status.
   Future<void> updateTodo({required String todoUrl, required bool isCompleted});
+
+  /// Frees up resources.
+  void dispose();
 }

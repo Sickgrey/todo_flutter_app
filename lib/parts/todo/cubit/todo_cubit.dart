@@ -98,6 +98,12 @@ class TodoCubit extends Cubit<TodoState> {
       ));
     }
   }
+
+  @override
+  Future<void> close() {
+    todoRepository.dispose();
+    return super.close();
+  }
 }
 
 /// Context extension for quick access to [TodoCubit].
