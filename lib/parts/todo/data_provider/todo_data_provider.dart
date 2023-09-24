@@ -30,4 +30,15 @@ class TodoDataProvider implements ITodoDataProvider {
   @override
   Future<void> deleteTodo({required String todoUrl}) async =>
       await _dio.delete(todoUrl);
+
+  @override
+  Future<void> updateTodo({
+    required String todoUrl,
+    required bool isCompleted,
+  }) async {
+    final data = <String, dynamic>{
+      "completed": isCompleted,
+    };
+    await _dio.patch(todoUrl, data: data);
+  }
 }

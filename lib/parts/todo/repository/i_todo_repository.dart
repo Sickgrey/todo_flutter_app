@@ -12,4 +12,7 @@ abstract class ITodoRepository {
 
   /// Delete todo.
   Future<void> deleteTodo({required String todoUrl});
+
+  /// Update todo completion status.
+  Future<void> updateTodo({required String todoUrl, required bool isCompleted});
 }

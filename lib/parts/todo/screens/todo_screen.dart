@@ -55,11 +55,16 @@ class TodoScreen extends StatelessWidget {
                     ),
                     leading: Checkbox(
                       value: todoItem.completed,
-                      onChanged: (value) => context.readTodoCubit
-                          .switchCompleteStatus(id: todoItem.id),
+                      onChanged: (value) =>
+                          context.readTodoCubit.updateCompleteStatus(
+                        todoUrl: todoItem.url,
+                        isCompleted: !todoItem.completed,
+                      ),
                     ),
-                    onTap: () => context.readTodoCubit
-                        .switchCompleteStatus(id: todoItem.id),
+                    onTap: () => context.readTodoCubit.updateCompleteStatus(
+                      todoUrl: todoItem.url,
+                      isCompleted: !todoItem.completed,
+                    ),
                   ),
                 );
               },

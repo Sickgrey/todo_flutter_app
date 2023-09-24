@@ -23,19 +23,26 @@ class TodoCubit extends Cubit<TodoState> {
     }
   }
 
-  Future<void> switchCompleteStatus({required String id}) async {
-    if (state is TodoLoadSuccess) {
-      final currentState = state as TodoLoadSuccess;
-
-      final todoList = List<TodoItem>.from(currentState.filteredTodoList);
-
-      final todoIndex = todoList.indexWhere((element) => element.id == id);
-      if (todoIndex > -1) {
-        final todoItem = todoList[todoIndex];
-        todoList[todoIndex] = todoItem.copyWith(completed: !todoItem.completed);
+  Future<void> updateCompleteStatus({
+    required String todoUrl,
+    required bool isCompleted,
+  }) async {
+    try {
+      if (state is TodoLoadSuccess) {
+        final currentState = state as TodoLoadSuccess;
+        await todoRepository.updateTodo(
+            todoUrl: todoUrl, isCompleted: isCompleted);
+        final data = await todoRepository.fetchTodos();
         emit(currentState.copyWith(
-            todoList: todoList, filteredTodoList: todoList));
+          todoList: data,
+          filteredTodoList: _filterItems(
+            items: data,
+            filterType: currentState.currentFilter,
+          ),
+        ));
       }
+    } catch (e) {
+      emit(TodoLoadFailed(error: e));
     }
   }
 
@@ -43,30 +50,51 @@ class TodoCubit extends Cubit<TodoState> {
     if (state is TodoLoadSuccess) {
       final currentState = state as TodoLoadSuccess;
 
-      List<TodoItem> todoList = List<TodoItem>.from(currentState.todoList);
-
-      switch (filterType) {
-        case TodoFilterType.all:
-          break;
-        case TodoFilterType.completed:
-          todoList =
-              todoList.where((element) => element.completed == true).toList();
-          break;
-        case TodoFilterType.uncompleted:
-          todoList =
-              todoList.where((element) => element.completed == false).toList();
-          break;
-      }
       emit(currentState.copyWith(
-        filteredTodoList: todoList,
+        filteredTodoList: _filterItems(
+          items: currentState.todoList,
+          filterType: filterType,
+        ),
         currentFilter: filterType,
       ));
     }
   }
 
+  List<TodoItem> _filterItems({
+    required List<TodoItem> items,
+    required TodoFilterType filterType,
+  }) {
+    List<TodoItem> todoList = List<TodoItem>.from(items);
+
+    switch (filterType) {
+      case TodoFilterType.all:
+        break;
+      case TodoFilterType.completed:
+        todoList =
+            todoList.where((element) => element.completed == true).toList();
+        break;
+      case TodoFilterType.uncompleted:
+        todoList =
+            todoList.where((element) => element.completed == false).toList();
+        break;
+    }
+    return todoList;
+  }
+
   Future<void> createTodo({required String title}) async {
     try {
-      await todoRepository.createTodo(title: title);
+      if (state is TodoLoadSuccess) {
+        final currentState = state as TodoLoadSuccess;
+        await todoRepository.createTodo(title: title);
+        final data = await todoRepository.fetchTodos();
+        emit(currentState.copyWith(
+          todoList: data,
+          filteredTodoList: _filterItems(
+            items: data,
+            filterType: currentState.currentFilter,
+          ),
+        ));
+      }
     } catch (e) {
       emit(TodoLoadFailed(error: e));
     }
@@ -74,8 +102,20 @@ class TodoCubit extends Cubit<TodoState> {
 
   Future<void> deleteTodo({required String todoUrl}) async {
     try {
-      await todoRepository.deleteTodo(todoUrl: todoUrl);
-      await fetchTodos();
+      if (state is TodoLoadSuccess) {
+        final currentState = state as TodoLoadSuccess;
+        await todoRepository.deleteTodo(todoUrl: todoUrl);
+
+        final data = await todoRepository.fetchTodos();
+
+        emit(currentState.copyWith(
+          todoList: data,
+          filteredTodoList: _filterItems(
+            items: data,
+            filterType: currentState.currentFilter,
+          ),
+        ));
+      }
     } catch (e) {
       emit(TodoLoadFailed(error: e));
     }

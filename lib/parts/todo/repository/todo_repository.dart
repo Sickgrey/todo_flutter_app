@@ -24,4 +24,14 @@ class TodoRepository extends ITodoRepository {
   @override
   Future<void> deleteTodo({required String todoUrl}) async =>
       await todoDataProvider.deleteTodo(todoUrl: todoUrl);
+
+  @override
+  Future<void> updateTodo({
+    required String todoUrl,
+    required bool isCompleted,
+  }) async =>
+      await todoDataProvider.updateTodo(
+        todoUrl: todoUrl,
+        isCompleted: isCompleted,
+      );
 }
